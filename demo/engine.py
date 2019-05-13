@@ -25,7 +25,7 @@ from getpass import getpass
 #print("Predicted answer: {}".format(query(input_qn, debug=True)))
 
 
-class engine:
+class Engine:
     def __init__(self):
         self.model = self.load_vectors()
         self.datarows = load_csv_into_memory(r"labeled-database.csv", model)
@@ -40,10 +40,10 @@ class engine:
         start_time = time.clock()
         model = gensim.models.KeyedVectors.load_word2vec_format(r"GoogleNews-vectors-negative300.bin.gz", limit=10000, binary=True)
         end_time = time.clock()
-        
+
         print('Embeddings successfully loaded!')
         print('Time elapsed:', end_time - start_time, 'seconds')
-        
+
         return model
 
     def ask(q):
@@ -61,4 +61,3 @@ class engine:
         with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
             server.login("chatbotquestionbank420@gmail.com", password)
             server.sendmail(sender_email, receiver_email, message)
-
