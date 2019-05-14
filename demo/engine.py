@@ -52,8 +52,11 @@ class Engine:
         return model
 
     def ask(self, q):
+        print("A")
         input_qn = question(q)
+        print("B", input_qn)
         payload = query(input_qn, self.model, self.datarows, debug=True)
+        print("payload", payload)
         print("Question:{}".format(q))
 
         return payload

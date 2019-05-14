@@ -98,7 +98,7 @@ class PregChatBot:
         self.logger.info("User %s asked \'%s\'", user.first_name, update.message.text)
 
         _r = self.engine.ask(update.message.text)
-        
+
         response = ["\n".join(_r), "\n\n__Send /support any time to send a question to a human.__"]
 
         update.message.reply_text("".join(response))

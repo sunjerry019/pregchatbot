@@ -1,6 +1,9 @@
 pip install python-telegram-bot==12.0.0b1 --upgrade
-pip install nltk autocorrect gensim
+pip install nltk autocorrect gensim scikit-learn
 sudo python -m nltk.downloader -d /usr/local/share/nltk_data
     punkt
     stopwords
     averaged_perceptron_tagger
+
+
+On server: '/home/bot/envs/pregchatbot/nltk_data'
