@@ -12,7 +12,7 @@ warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
 # SMTP imports
 import smtplib, ssl
 from getpass import getpass
-
+import os
 
 #v1: no interrogative, have relevant SYMPTOM or WHAT QUESTION
 #v2: no interrogative, have relevant CONTENT
@@ -27,8 +27,12 @@ from getpass import getpass
 
 class Engine:
     def __init__(self):
+        self.pwd = os.path.dirname(os.path.abspath(__file__))
+
         self.model = self.load_vectors()
-        self.datarows = load_csv_into_memory(r"labeled-database.csv", model)
+
+        _fileLoc = os.path.join(self.pwd, r"labeled-database.csv")
+        self.datarows = load_csv_into_memory(_fileLoc, self.model)
 
         self.port = 465  # For SSL
         self.password = '420blazeit!'
@@ -37,9 +41,10 @@ class Engine:
 
     def load_vectors(self):
         # Load pre-trained word embeddings
-        start_time = time.clock()
-        model = gensim.models.KeyedVectors.load_word2vec_format(r"GoogleNews-vectors-negative300.bin.gz", limit=10000, binary=True)
-        end_time = time.clock()
+        start_time  = time.clock()
+        _fileLoc    = os.path.join(self.pwd, r"GoogleNews-vectors-negative300.bin.gz")
+        model       = gensim.models.KeyedVectors.load_word2vec_format(_fileLoc, limit=10000, binary=True)
+        end_time    = time.clock()
 
         print('Embeddings successfully loaded!')
         print('Time elapsed:', end_time - start_time, 'seconds')
