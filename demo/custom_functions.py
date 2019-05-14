@@ -16,6 +16,8 @@ from nltk.corpus import wordnet as wn
 # Vector comparison module
 from sklearn.metrics.pairwise import cosine_similarity
 
+import codecs
+
 
 
 # Core chatbot functions
@@ -27,7 +29,7 @@ def load_csv_into_memory(directory, model):
 
     """
 
-    with open(directory) as csv_file:
+    with codecs.open(directory, 'r', encoding="utf-8") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
 
         datarows = []
