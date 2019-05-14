@@ -46,7 +46,7 @@ class Engine:
 
         return model
 
-    def ask(q):
+    def ask(self, q):
         input_qn = question(q)
         payload = query(input_qn, self.model, self.datarows, debug=True)
         print("Question:{}".format(q))
@@ -54,7 +54,7 @@ class Engine:
         return payload
 
     # Function to send email with missing question as message
-    def add_to_questionbank(message):
+    def add_to_questionbank(self, message):
         # Create a secure SSL context
         context = ssl.create_default_context()
 
