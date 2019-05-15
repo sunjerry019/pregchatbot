@@ -23,7 +23,7 @@ import sys
 sys.path.insert(0, "../demo/")
 import engine
 
-from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
+from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode)
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler)
 
@@ -38,7 +38,7 @@ class PregChatBot:
         # Initialize engine
         self.engine = engine.Engine()
 
-        self.QUESTION, self.SUPPORTCONFIRM, self.SUPPORTSUBMIT, self.SUPPORT = range(4)
+        self.QUESTION, self.SELECTQUESTION, self.SUPPORTCONFIRM, self.SUPPORTSUBMIT, self.SUPPORT = range(5)
 
         # Create the Updater and pass it your bot's token.
         # Make sure to set use_context=True to use the new context based callbacks
@@ -59,6 +59,7 @@ class PregChatBot:
 
             states={
                 self.QUESTION:          [MessageHandler(Filters.text, self.question)],
+                self.SELECTQUESTION:    [MessageHandler(Filters.text, self.selectQuestion)],
                 self.SUPPORTCONFIRM:    [MessageHandler(Filters.regex('^(Yes|No)$'), self.supportConfirm), CommandHandler('skip', self.skip_support)],
                 self.SUPPORTSUBMIT:     [MessageHandler(Filters.text, self.supportSubmit)]
             },
@@ -89,7 +90,7 @@ class PregChatBot:
             'At any point, send /support if you feel like your question(s) are not being satisfyingly answered. \n'
             'Do note that this bot currently does not keep track of the conversation to build up context. \n'
             'Send /cancel to stop talking to me. Send /start if the bot stops responding. \n\n'
-            'What\'s bothering your today?'.format(user.first_name))
+            'What\'s bothering your today?'.format(user.first_name), parse_mode=ParseMode.MARKDOWN)
 
         return self.QUESTION
 
@@ -99,9 +100,26 @@ class PregChatBot:
 
         _r = self.engine.ask(update.message.text)
 
-        response = ["\n".join(_r), "\n\n__Send /support any time to send a question to a human.__"]
+        reply_keyboard = [ [x] for x in _r ]
 
-        update.message.reply_text("".join(response))
+        response = ["I found these similiar questions in my database, please choose the one that best matches your query. ^^\n",
+            "\n\n_Send /support any time to send a question to a human._"]
+
+        update.message.reply_text("".join(response), reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True), parse_mode=ParseMode.MARKDOWN)
+
+        return self.SELECTQUESTION
+
+    def selectQuestion(self, update, context):
+        user = update.message.from_user
+        self.logger.info("User %s selected \'%s\'", user.first_name, update.message.text)
+
+        # If not in the list, go back to # question with a note saying you can use /support to send to human
+        if update.message.text not in self.engine.datarows:
+            update.message.reply_text("I didn't manage to find '{}' in my database. Could you rephrase your question?\n\n_If you would like to send the question to a human, type /support._".format(update.message.text), parse_mode=ParseMode.MARKDOWN)
+        else:
+            _r = self.engine.datarows[update.message.text]
+
+            update.message.reply_text("{}\n\n{}\n\nHope that was helpful!\n\nIf you would like to send the question to a human instead, type /support. Otherwise, feel free to ask another question!".format(_r.question, _r.answer))
 
         return self.QUESTION
 
@@ -110,7 +128,7 @@ class PregChatBot:
 
         user = update.message.from_user
         self.logger.info("User %s requested for support.", user.first_name)
-        update.message.reply_text('Aw snap, would you like to send the question to our question bank?'
+        update.message.reply_text('Aw snap, would you like to send the question to our question bank? '
             'It will be answered in bulk at a later point in time. ',
             reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True))
 
@@ -123,8 +141,8 @@ class PregChatBot:
         self.logger.info("Request for support %s: %s", user.first_name, update.message.text)
 
         if update.message.text == "Yes":
-            update.message.reply_text('Righty, please type your question clearly and concisely in **1 message**. It will then be sent to my humans to be answered. '
-            'You can send /skip if you would like to skip out.')
+            update.message.reply_text('Righty, please type your question clearly and concisely in *1 message*. It will then be sent to my humans to be answered. '
+            'You can send /skip if you would like to skip out.', parse_mode=ParseMode.MARKDOWN)
 
             return self.SUPPORTSUBMIT
         else:
