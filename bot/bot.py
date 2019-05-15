@@ -47,7 +47,8 @@ class PregChatBot:
         # Post version 12 this will no longer be necessary
 
         # Get the token here
-        with open("../api.token", 'r') as f:
+        _pwd = os.path.dirname(os.path.abspath(__file__))
+        with open(os.path.join(_pwd, "../api.token"), 'r') as f:
             botToken = f.readlines()[0].strip()
 
         self.updater = Updater(botToken, use_context=True)
