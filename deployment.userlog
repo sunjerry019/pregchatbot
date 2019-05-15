@@ -1,0 +1,7 @@
+export VIRTUALENVWRAPPER_PYTHON="/usr/bin/python3"
+export WORKON_HOME="/home/bot/envs"
+source /usr/local/bin/virtualenvwrapper.sh
+
+Enable systemd service:
+    sudo ln -s /home/bot/envs/pregchatbot/pregchatbot/bot/pregchatbot.service /etc/systemd/system/pregchatbot.service
+    Always reenable the file after changing on disk

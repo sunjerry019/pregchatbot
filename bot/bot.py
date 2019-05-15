@@ -19,8 +19,10 @@ bot.
 
 import logging
 
-import sys
-sys.path.insert(0, "../demo/")
+import sys, os
+_pwd = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(_pwd, "../demo/"))
+
 import engine
 
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode)
