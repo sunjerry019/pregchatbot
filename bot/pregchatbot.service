@@ -9,6 +9,7 @@ KillSignal=SIGINT
 Type=notify
 StandardError=syslog
 NotifyAccess=exec
+TimeoutStartSec=5min
 
 [Install]
 WantedBy=multi-user.target
