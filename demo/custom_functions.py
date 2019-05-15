@@ -82,6 +82,8 @@ def query(q, model, datarows, debug = False):
 
     q.processed_keywords = [word for word in q.all_keywords if word not in q.unprocessed_keywords]
 
+    print("all_keywords: {}".format(q.all_keywords))
+    print("unprocessed_keywords: {}".format(q.unprocessed_keywords))
     print("Final processed keywords:\t{}".format(q.processed_keywords))
 
     # Iterate through all dataset questions, storing dataset question-similarity pairs in similarity_dict
