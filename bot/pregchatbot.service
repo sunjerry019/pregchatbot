@@ -3,8 +3,7 @@ Description=PregChatBot
 After=syslog.target
 
 [Service]
-ExecStartPre=cd /home/bot/envs/pregchatbot/
-ExecStart=/home/bot/envs/pregchatbot/bin/python /home/bot/envs/pregchatbot/pregchatbot/bot/bot.py
+ExecStart=/bin/sh -c "cd /home/bot/envs/pregchatbot/ && /home/bot/envs/pregchatbot/bin/python /home/bot/envs/pregchatbot/pregchatbot/bot/bot.py"
 Restart=always
 KillSignal=SIGTERM
 Type=notify
