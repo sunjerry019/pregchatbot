@@ -5,3 +5,5 @@ source /usr/local/bin/virtualenvwrapper.sh
 Enable systemd service:
     sudo ln -s /home/bot/envs/pregchatbot/pregchatbot/bot/pregchatbot.service /etc/systemd/system/pregchatbot.service
     Always reenable the file after changing on disk
+
+https://www.freedesktop.org/software/systemd/man/systemd.service.html
