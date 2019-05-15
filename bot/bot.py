@@ -42,7 +42,7 @@ class PregChatBot:
         self.logger = logging.getLogger(__name__)
 
         # Systemd journal handler
-        logger.addHandler(journal.JournaldLogHandler())
+        self.logger.addHandler(journal.JournaldLogHandler())
 
         # Initialize engine
         self.engine = engine.Engine()
