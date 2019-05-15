@@ -4,6 +4,7 @@ sudo python -m nltk.downloader -d /usr/local/share/nltk_data
     punkt
     stopwords
     averaged_perceptron_tagger
+    wordnet
 
 
 On server: '/home/bot/envs/pregchatbot/nltk_data'
