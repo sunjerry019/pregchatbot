@@ -8,3 +8,7 @@ sudo python -m nltk.downloader -d /usr/local/share/nltk_data
 
 
 On server: '/home/bot/envs/pregchatbot/nltk_data'
+
+
+Enable systemd service:
+    sudo ln -s /home/bot/envs/pregchatbot/pregchatbot/bot/pregchatbot.service /etc/systemd/system/pregchatbot.service
