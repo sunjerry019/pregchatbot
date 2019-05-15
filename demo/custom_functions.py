@@ -16,6 +16,7 @@ from nltk.corpus import wordnet as wn
 # Vector comparison module
 from sklearn.metrics.pairwise import cosine_similarity
 
+import traceback
 import codecs, os
 
 
@@ -32,7 +33,7 @@ def load_csv_into_memory(directory, model):
     with codecs.open(directory, 'r', encoding="utf-8") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
 
-        datarows = []
+        datarows = {}
         loaded_vectors = []
 
         for row in csv_reader:
@@ -40,11 +41,12 @@ def load_csv_into_memory(directory, model):
                 current = datarow(row[0])
                 current.answer = row[1]
                 current.interrogative = row[2]
-                datarows.append(current)
 
                 # Process read-in line
                 keyword_list, unprocessed_words, vector = process(row[0], model)
                 current.vector = vector
+
+                datarows[row[0]] = current
 
                 while 'i' in keyword_list:
                     keyword_list.remove('i')
@@ -92,7 +94,7 @@ def query(q, model, datarows, debug = False):
     results = []
     payload = []
 
-    for row in datarows:
+    for qn, row in datarows.items():
         try:
             comparison_sentence_vector = np.reshape(row.vector, (1, -1))
             sim = cosine_similarity(comparison_sentence_vector, q.vector)[0][0]
@@ -458,7 +460,7 @@ def sim_to_question(sim, results):
 
 
 def question_to_datarow(question, datarows):
-    for datarow in datarows:
+    for qn, datarow in datarows.items():
         if question == datarow.question:
             return datarow
     print("DATAROW LOOKUP ERROR")
