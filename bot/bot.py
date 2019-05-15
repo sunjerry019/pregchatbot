@@ -101,7 +101,7 @@ class PregChatBot:
         user = update.message.from_user
         self.logger.info("User %s asked for help", user.first_name)
 
-        update.message.reply_text("PregChatBot v0.1\n\nThis is a bot that answers your queries on anything relating to pregnancies!\n\n/start - Start a conversation with me\n/support - Send a question to a human\n/cancel - Stop talking to me".format(update.message.text))
+        update.message.reply_text("PregChatBot v0.1\n\nThis is a bot that answers your queries on anything relating to pregnancies!\n\n/start - Start a conversation with me\n/support - Send a question to a human\n/cancel - Stop talking to me\n/help - Display this help screen".format(update.message.text))
 
         # https://stackoverflow.com/a/55759244/3211506
         return None
