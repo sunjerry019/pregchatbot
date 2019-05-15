@@ -29,6 +29,10 @@ from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode)
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler)
 
+from systemd.daemon import notify, Notification
+from systemd import journal
+import uuid
+
 class PregChatBot:
     def __init__(self):
         # Enable logging
@@ -36,6 +40,9 @@ class PregChatBot:
                             level=logging.INFO)
 
         self.logger = logging.getLogger(__name__)
+
+        # Systemd journal handler
+        logger.addHandler(journal.JournaldLogHandler())
 
         # Initialize engine
         self.engine = engine.Engine()
@@ -78,11 +85,13 @@ class PregChatBot:
         # Start the Bot
         self.updater.start_polling()
         print("Ready")
+        notify(Notification.READY)
 
         # Run the bot until you press Ctrl-C or the process receives SIGINT,
         # SIGTERM or SIGABRT. This should be used most of the time, since
         # start_polling() is non-blocking and will stop the bot gracefully.
         self.updater.idle()
+        notify(Notification.STOPPING)
         print("Ended")
 
 

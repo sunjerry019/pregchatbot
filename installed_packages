@@ -6,5 +6,11 @@ sudo python -m nltk.downloader -d /usr/local/share/nltk_data
     averaged_perceptron_tagger
     wordnet
 
-
 On server: '/home/bot/envs/pregchatbot/nltk_data'
+
+apt-get install build-essential \
+    libsystemd-journal-dev \
+    libsystemd-daemon-dev \
+    libsystemd-dev
+
+pip install systemd
