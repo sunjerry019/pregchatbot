@@ -8,7 +8,7 @@ Restart=always
 KillSignal=SIGINT
 Type=notify
 StandardError=syslog
-NotifyAccess=exec
+NotifyAccess=all
 TimeoutStartSec=5min
 
 [Install]
