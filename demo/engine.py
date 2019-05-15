@@ -43,7 +43,7 @@ class Engine:
         # Load pre-trained word embeddings
         start_time  = time.clock()
         _fileLoc    = os.path.join(self.pwd, r"GoogleNews-vectors-negative300.bin.gz")
-        model       = gensim.models.KeyedVectors.load_word2vec_format(_fileLoc, binary=True)
+        model       = gensim.models.KeyedVectors.load_word2vec_format(_fileLoc, limit=100000, binary=True)
         end_time    = time.clock()
 
         print('Embeddings successfully loaded!')
