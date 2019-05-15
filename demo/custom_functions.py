@@ -16,7 +16,7 @@ from nltk.corpus import wordnet as wn
 # Vector comparison module
 from sklearn.metrics.pairwise import cosine_similarity
 
-import codecs
+import codecs, os
 
 
 
@@ -282,7 +282,10 @@ def get_semantics_vector(word_list, model, debug = False):
 
 
 def uk_to_us(uk_in):
-    with open(r'uk_to_us.csv', mode='r') as infile:
+    _pwd = os.path.dirname(os.path.abspath(__file__))
+    _ukusfile = os.path.join(_pwd, r'uk_to_us.csv')
+
+    with open(_ukusfile, mode='r') as infile:
         reader = csv.reader(infile)
         conversion_dict = {rows[0]:rows[1] for rows in reader}
 
