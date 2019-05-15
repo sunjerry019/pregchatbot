@@ -8,9 +8,7 @@ sudo python -m nltk.downloader -d /usr/local/share/nltk_data
 
 On server: '/home/bot/envs/pregchatbot/nltk_data'
 
-apt-get install build-essential \
-    libsystemd-journal-dev \
-    libsystemd-daemon-dev \
-    libsystemd-dev
+apt-get install build-essential libsystemd-dev
+# libsystemd-journal-dev  libsystemd-daemon-dev
 
 pip install systemd
