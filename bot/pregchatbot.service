@@ -1,0 +1,15 @@
+[Unit]
+Description=PregChatBot
+After=syslog.target
+
+[Service]
+ExecStartPre=cd /home/bot/envs/pregchatbot/
+ExecStart=/home/bot/envs/pregchatbot/bin/python /home/bot/envs/pregchatbot/pregchatbot/bot/bot.py
+Restart=always
+KillSignal=SIGTERM
+Type=notify
+StandardError=syslog
+NotifyAccess=main
+
+[Install]
+WantedBy=multi-user.target
