@@ -67,7 +67,7 @@ class PregChatBot:
                 self.SUPPORTSUBMIT:     [MessageHandler(Filters.text, self.supportSubmit)]
             },
 
-            fallbacks=[CommandHandler('support', self.support), CommandHandler('cancel', self.cancel)]
+            fallbacks=[CommandHandler('support', self.support), CommandHandler('cancel', self.cancel), CommandHandler('help', self.help)]
         )
 
         self.dp.add_handler(self.conv_handler)
@@ -96,6 +96,15 @@ class PregChatBot:
             'What\'s bothering your today?'.format(user.first_name), parse_mode=ParseMode.MARKDOWN)
 
         return self.QUESTION
+
+    def help(self, update, context):
+        user = update.message.from_user
+        self.logger.info("User %s asked for help", user.first_name)
+
+        update.message.reply_text("PregChatBot v0.1\n\nThis is a bot that answers your queries on anything relating to pregnancies!\n\n/start - Start a conversation with me\n/support - Send a question to a human\n/cancel - Stop talking to me".format(update.message.text))
+
+        # https://stackoverflow.com/a/55759244/3211506
+        return None
 
     def question(self, update, context):
         user = update.message.from_user
