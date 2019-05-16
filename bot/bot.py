@@ -121,18 +121,21 @@ class PregChatBot:
 
         _r = self.engine.ask(update.message.text)
 
-        reply_keyboard = [ [x] for x in _r ]
+        if len(_r):
+            reply_keyboard = [ [x] for x in _r ]
 
-        response = ["I found these similiar questions in my database, please choose the one that best matches your query. ^^\n\n"]
+            response = ["I found these similiar questions in my database, please choose the one that best matches your query. ^^\n\n"]
 
-        for i, elem in enumerate(_r):
-            response.append("- {}\n".format(elem))
+            for i, elem in enumerate(_r):
+                response.append("- {}\n".format(elem))
 
-        response.append("\n\n_Send /support any time to send a question to a human._")
+            response.append("\n\n_Send /support any time to send a question to a human._")
 
-        update.message.reply_text("".join(response), reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True), parse_mode=ParseMode.MARKDOWN)
+            update.message.reply_text("".join(response), reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True), parse_mode=ParseMode.MARKDOWN)
 
-        return self.SELECTQUESTION
+            return self.SELECTQUESTION
+        else:
+            update.message.reply_text("I didn't manage to find anything similiar in my database :( You can type /support to send a question to a human, or ask another question!", reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True), parse_mode=ParseMode.MARKDOWN)
 
     def selectQuestion(self, update, context):
         user = update.message.from_user
