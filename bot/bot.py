@@ -102,7 +102,7 @@ class PregChatBot:
             'At any point, send /support if you feel like your question(s) are not being satisfyingly answered. \n'
             'Do note that this bot currently does not keep track of the conversation to build up context. \n'
             'Send /cancel to stop talking to me. Send /start if the bot stops responding. \n\n'
-            'What\'s bothering your today?'.format(user.first_name), parse_mode=ParseMode.MARKDOWN)
+            'What\'s bothering you today?'.format(user.first_name), parse_mode=ParseMode.MARKDOWN)
 
         return self.QUESTION
 
@@ -118,6 +118,14 @@ class PregChatBot:
     def question(self, update, context):
         user = update.message.from_user
         self.logger.info("User %s asked \'%s\'", user.first_name, update.message.text)
+
+        if update.message.text.lower() in { "hi": 1, "hello": 1, "hey": 1 }:
+            update.message.reply_text(update.message.text + "!")
+            return None
+
+        if update.message.text.lower() == "no":
+            update.message.reply_text("It's okay, you can come bother me anytime when you have questions. ")
+            return None
 
         _r = self.engine.ask(update.message.text)
 
@@ -136,6 +144,8 @@ class PregChatBot:
             return self.SELECTQUESTION
         else:
             update.message.reply_text("I didn't manage to find anything similiar in my database :( You can type /support to send a question to a human, or ask another question!", parse_mode=ParseMode.MARKDOWN)
+
+            return None
 
     def selectQuestion(self, update, context):
         user = update.message.from_user
