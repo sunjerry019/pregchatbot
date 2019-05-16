@@ -135,7 +135,7 @@ class PregChatBot:
 
             return self.SELECTQUESTION
         else:
-            update.message.reply_text("I didn't manage to find anything similiar in my database :( You can type /support to send a question to a human, or ask another question!", reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True), parse_mode=ParseMode.MARKDOWN)
+            update.message.reply_text("I didn't manage to find anything similiar in my database :( You can type /support to send a question to a human, or ask another question!", parse_mode=ParseMode.MARKDOWN)
 
     def selectQuestion(self, update, context):
         user = update.message.from_user
