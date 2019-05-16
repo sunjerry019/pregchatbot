@@ -123,8 +123,12 @@ class PregChatBot:
 
         reply_keyboard = [ [x] for x in _r ]
 
-        response = ["I found these similiar questions in my database, please choose the one that best matches your query. ^^\n",
-            "\n\n_Send /support any time to send a question to a human._"]
+        response = ["I found these similiar questions in my database, please choose the one that best matches your query. ^^\n\n"]
+
+        for i, elem in enumerate(_r):
+            response.append("- {}\n".format(elem))
+
+        response.append("\n\n_Send /support any time to send a question to a human._")
 
         update.message.reply_text("".join(response), reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True), parse_mode=ParseMode.MARKDOWN)
 
@@ -136,7 +140,7 @@ class PregChatBot:
 
         # If not in the list, go back to # question with a note saying you can use /support to send to human
         if update.message.text not in self.engine.datarows:
-            update.message.reply_text("I didn't manage to find '{}' in my database. Could you rephrase your question?\n\n_If you would like to send the question to a human, type /support._".format(update.message.text), parse_mode=ParseMode.MARKDOWN)
+            update.message.reply_text("Hmm, I didn't manage to find '{}' in my database. Did you choose a question from the list above? If you would like to ask something else, could you try asking again?\n\n_If you would like to send the question to a human, type /support._".format(update.message.text), parse_mode=ParseMode.MARKDOWN)
         else:
             _r = self.engine.datarows[update.message.text]
 
