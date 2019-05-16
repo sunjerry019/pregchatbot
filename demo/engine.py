@@ -43,7 +43,7 @@ class Engine:
         # Load pre-trained word embeddings
         start_time  = time.clock()
         _fileLoc    = os.path.join(self.pwd, r"GoogleNews-vectors-negative300.bin.gz")
-        model       = gensim.models.KeyedVectors.load_word2vec_format(_fileLoc, limit=1000000, binary=True)
+        model       = gensim.models.KeyedVectors.load_word2vec_format(_fileLoc, limit=300000, binary=True)
         end_time    = time.clock()
 
         print('Embeddings successfully loaded!')
@@ -66,6 +66,6 @@ class Engine:
         # Create a secure SSL context
         context = ssl.create_default_context()
 
-        with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-            server.login("chatbotquestionbank420@gmail.com", password)
-            server.sendmail(sender_email, receiver_email, message)
+        with smtplib.SMTP_SSL("smtp.gmail.com", self.port, context=context) as server:
+            server.login("chatbotquestionbank420@gmail.com", self.password)
+            server.sendmail(self.sender_email, self.receiver_email, message)
