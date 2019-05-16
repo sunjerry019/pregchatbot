@@ -120,7 +120,7 @@ class PregChatBot:
         self.logger.info("User %s asked \'%s\'", user.first_name, update.message.text)
 
         if update.message.text.lower() in { "hi": 1, "hello": 1, "hey": 1 }:
-            update.message.reply_text(update.message.text + "!")
+            update.message.reply_text(update.message.text + "! Anything on your mind right now regarding pregnancies?")
             return None
 
         if update.message.text.lower() == "no":
